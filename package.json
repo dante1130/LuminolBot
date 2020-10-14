@@ -1,0 +1,25 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.2",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "ffmpeg-static": "^4.2.7",
+    "node-fetch": "^2.6.1",
+    "opusscript": "0.0.7",
+    "reddit-fetch": "^1.4.0",
+    "translate-google": "^1.4.3",
+    "wtf_wikipedia": "^8.5.1",
+    "youtube-metadata-from-url": "^1.0.3",
+    "youtube-search": "^1.1.4",
+    "ytdl-core": "^3.2.2"
+  }
+}
