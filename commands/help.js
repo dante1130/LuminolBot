@@ -10,6 +10,11 @@ module.exports = {
             .setColor('#00FFFF')
             .addFields(
                 {
+                    name: 'About',
+                    value: 'Link to Github repository: https://github.com/dante1130/LuminolBot',
+                    inline: false
+                }
+                {
                     name: 'Fun',
                     value: `e!ping              Ping pong!
                             e!ask <question>    Ask me anything and I will answer with science!`,

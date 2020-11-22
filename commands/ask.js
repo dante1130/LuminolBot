@@ -6,6 +6,11 @@ module.exports = {
 
     execute(message, args) {
         var question = args.join(' ');
+        const embed = new MessageEmbed()
+            .setTitle(question)
+            .setColor('#00FFFF')
+            .attachFiles(['./images/DS.gif'])
+            .setImage('attachment://DS.gif')
         const responses =  ["as I see it, yes.", 
                             "ask again later.",
                             "better not tell you now.", 
@@ -26,13 +31,13 @@ module.exports = {
                             "yes.",
                             "yes - definitely.",
                             "you may rely on it."]
-        const response = responses[Math.floor(Math.random() * responses.length)]
-        const embed = new MessageEmbed()
-            .setTitle(question)
-            .setColor('#00FFFF')
-            .attachFiles(['./images/DS.gif'])
-            .setImage('attachment://DS.gif')
-            .setDescription(`So, to scientically analyze the data available so far, ${response}`)
+
+        if (question.toUpperCase().includes("why are we still here".toUpperCase())) {
+            embed.setDescription(`So, to scientically analyze the data available so far, just to suffer.`)
+        } else {
+            const response = responses[Math.floor(Math.random() * responses.length)]
+            embed.setDescription(`So, to scientically analyze the data available so far, ${response}`)
+        }
         message.channel.send(embed);
     }
 }
