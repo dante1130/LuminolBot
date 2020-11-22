@@ -13,7 +13,7 @@ module.exports = {
                     name: 'About',
                     value: 'Link to Github repository: https://github.com/dante1130/LuminolBot',
                     inline: false
-                }
+                },
                 {
                     name: 'Fun',
                     value: `e!ping              Ping pong!
