@@ -13,6 +13,7 @@
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
+    "jshint": "^2.12.0",
     "jslint": "^0.12.1",
     "node-fetch": "^2.6.1",
     "opusscript": "0.0.7",

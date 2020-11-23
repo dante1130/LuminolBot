@@ -9,8 +9,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setTitle(question)
             .setColor('#00FFFF')
-            .attachFiles(['./images/DS.gif'])
-            .setImage('attachment://DS.gif')
+            
         const responses =  ["as I see it, yes.", 
                             "ask again later.",
                             "better not tell you now.", 
@@ -33,10 +32,15 @@ module.exports = {
                             "you may rely on it."]
 
         if (question.toUpperCase().includes("why are we still here".toUpperCase())) {
-            embed.setDescription(`So, to scientically analyze the data available so far, just to suffer.`)
+            embed.setDescription(`Just to suffer? Every night, I can feel my leg... And my arm... even my fingers... The body I've lost... the comrades I've lost... won't stop hurting... 
+                                It's like they're all still there. You feel it, too, don't you? I'm gonna make them give back our past!`)
+                .attachFiles(['./images/Sad.gif'])
+                .setImage('attachment://Sad.gif')
         } else {
             const response = responses[Math.floor(Math.random() * responses.length)]
             embed.setDescription(`So, to scientically analyze the data available so far, ${response}`)
+                .attachFiles(['./images/DS.gif'])
+                .setImage('attachment://DS.gif')
         }
         message.channel.send(embed);
     }
