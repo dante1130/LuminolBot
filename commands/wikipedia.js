@@ -8,9 +8,9 @@ module.exports = {
     execute(message, args) {
         const embed = new MessageEmbed();
         if (!args[0]) {
-            embed.setTitle("No query detected!");
-            embed.setColor('#FF0000');
-            embed.setDescription("e!wikipedia <query>");
+            embed.setTitle("No query detected!")
+                .setColor('#FF0000')
+                .setDescription("e!wikipedia <query>");
             message.channel.send(embed);
             return;
         }

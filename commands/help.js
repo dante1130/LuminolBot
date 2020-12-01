@@ -10,6 +10,11 @@ module.exports = {
             .setColor('#00FFFF')
             .addFields(
                 {
+                    name: 'About',
+                    value: 'Link to Github repository: https://github.com/dante1130/LuminolBot',
+                    inline: false
+                },
+                {
                     name: 'Fun',
                     value: `e!ping              Ping pong!
                             e!ask <question>    Ask me anything and I will answer with science!`,
@@ -18,7 +23,8 @@ module.exports = {
                 {
                     name: 'Fetch posts',
                     value: `e!reddit <subreddit>    Returns a hot post from a subreddit.
-                            e!wikipedia <query>     Returns a Wikipedia page.`,
+                            e!wikipedia <query>     Returns a Wikipedia page.
+                            e!covid <country>       Returns COVID19 statistics based on country.`,
                     inline: false
                 },
                 {
