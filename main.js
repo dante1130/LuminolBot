@@ -82,6 +82,10 @@ bot.on('message', message => {
         case 'translate':
             bot.commands.get('translate').execute(message, args);
             break;
+
+        case 'covid':
+            bot.commands.get('covid').execute(message, args);
+            break;
     }
 })
 

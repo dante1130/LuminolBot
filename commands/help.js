@@ -23,7 +23,8 @@ module.exports = {
                 {
                     name: 'Fetch posts',
                     value: `e!reddit <subreddit>    Returns a hot post from a subreddit.
-                            e!wikipedia <query>     Returns a Wikipedia page.`,
+                            e!wikipedia <query>     Returns a Wikipedia page.
+                            e!covid <country>       Returns COVID19 statistics based on country.`,
                     inline: false
                 },
                 {
