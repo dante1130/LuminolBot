@@ -114,9 +114,9 @@ bot.on('message', message => {
     for (const word of forbiddenWords) {
         if (message.content.includes(word)) {
             message.delete();
-            embed.setTitle("Forbidden word detected!");
-            embed.setColor('#FF0000');
-            embed.setDescription("Don't say " + word + "! That's not very honourable of you.");
+            embed.setTitle("Forbidden word detected!")
+                .setColor('#FF0000')
+                .setDescription("Don't say " + word + "! That's not very honourable of you.");
             message.channel.send(embed);
             break;
         }

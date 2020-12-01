@@ -12,20 +12,20 @@ module.exports = {
             if (message.member.voice.channel.id === message.guild.me.voice.channel.id) {
                 server.queue = [];
                 server.titles = [];
-                embed.setTitle("Hold it!");
-                embed.setColor('#00FFFF');
-                embed.setDescription('Ending the queue!');
+                embed.setTitle("Hold it!")
+                    .setColor('#00FFFF')
+                    .setDescription('Ending the queue!');
 
                 if(server.dispatcher) server.dispatcher.end();
             } else {
-                embed.setTitle("User not in same voice channel!");
-                embed.setColor('#FF0000');
-                embed.setDescription("You have to be in the same channel as me to make me leave.");
+                embed.setTitle("User not in same voice channel!")
+                    .setColor('#FF0000')
+                    .setDescription("You have to be in the same channel as me to make me leave.");
             }
         } else {
-            embed.setTitle("Not in any voice channel!");
-            embed.setColor('#FF0000');
-            embed.setDescription("I'm not in a voice channel, silly.");
+            embed.setTitle("Not in any voice channel!")
+                .setColor('#FF0000')
+                .setDescription("I'm not in a voice channel, silly.");
         }
         message.channel.send(embed);
     }

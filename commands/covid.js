@@ -9,6 +9,7 @@ module.exports = {
     execute(message, args) {
         const embed = new MessageEmbed()
         const report = covid.getReportsByCountries([args[0]]).then((result) => {
+            
             embed.setTitle(`COVID19 Statistics`)
                 .setColor('#00FFFF')
                 .setImage(result[0][0].flag)
@@ -16,6 +17,11 @@ module.exports = {
                     {
                         name: 'Country',
                         value: args[0],
+                        inline: false
+                    },
+                    {
+                        name: 'Active cases',
+                        value: "Unavailable",
                         inline: false
                     },
                     {
@@ -33,12 +39,17 @@ module.exports = {
                         value: result[0][0].recovered,
                         inline: true
                     });
+            if (result[0][0].active_cases[0]) {
+                embed.fields[1].value = result[0][0].active_cases[0].currently_infected_patients;
+            }
+                    
             message.channel.send(embed);
         }).catch(err => {
-            embed.setTitle(`Country: ${args[0]}`)
+            embed.setTitle(`COVID19 Statistics`)
                 .setColor('#FF0000')
-                .setDescription("Country not found.")
+                .setDescription(`Country '${args[0]}' not found.`);
             message.channel.send(embed);
+            console.log(err);
         })
     }
 }

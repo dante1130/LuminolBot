@@ -11,15 +11,15 @@ module.exports = {
         var language = 'en';
 
         if (!args[0]) {
-            embed.setTitle("No message detected!");
-            embed.setColor('#FF0000');
-            embed.setDescription("e!translate <message>");
+            embed.setTitle("No message detected!")
+                .setColor('#FF0000')
+                .setDescription("e!translate <message>");
             message.channel.send(embed);
             return;
         } else if (args[0] == '[language-list]') {
-            embed.setTitle("List of languages:");
-            embed.setColor('#00FFFF');
-            embed.setDescription('https://github.com/shikar/NODE_GOOGLE_TRANSLATE/blob/master/languages.js');
+            embed.setTitle("List of languages:")
+                .setColor('#00FFFF')
+                .setDescription('https://github.com/shikar/NODE_GOOGLE_TRANSLATE/blob/master/languages.js');
             message.channel.send(embed);
             return;
         } else if (args[0].includes('[') && (args[0].includes(']'))) {
@@ -31,9 +31,9 @@ module.exports = {
 
         const msg = args.join(' ');
             translate(msg, {to: language}).then(res => {
-                embed.setTitle(msg);
-                embed.setColor('#00FFFF');
-                embed.setDescription(res);
+                embed.setTitle(msg)
+                    .setColor('#00FFFF')
+                    .setDescription(res);
                 message.channel.send(embed);
             }).catch(err => {
                 console.error(err);

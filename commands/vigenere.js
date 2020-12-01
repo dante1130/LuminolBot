@@ -12,25 +12,24 @@ module.exports = {
                 const oldMessage = args.slice(2).join(' ').toUpperCase();
                 if (args[0].toLowerCase().replace(/[\[\]]+/g, '') == 'encrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
                     const key = args[1].replace(/[\[\]]+/g, '').toUpperCase();
-                    embed.setTitle("Vigenere Encrypt");
-                    embed.setColor('#00FFFF');
-                    embed.addField(`Key: ${key}`, encrypt(oldMessage, key), true);
+                    embed.setTitle("Vigenere Encrypt")
+                        .setColor('#00FFFF')
+                        .addField(`Key: ${key}`, encrypt(oldMessage, key), true);
                 } else if (args[0].toLowerCase().replace(/[\[\]]+/g, '') == 'decrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
                     const key = args[1].replace(/[\[\]]+/g, '').toUpperCase();
-                    embed.setTitle("Vigenere Decrypt");
-                    embed.setColor('#00FFFF');
-                    embed.addField(`Key: ${key}`, decrypt(oldMessage, key), true);
+                    embed.setTitle("Vigenere Decrypt")
+                        .setColor('#00FFFF')
+                        .addField(`Key: ${key}`, decrypt(oldMessage, key), true);
                 } else {
-                    embed.setTitle("Did not specify to encrypt or decrypt.");
-                    embed.setColor('#FF0000');
-                    embed.setDescription("e!vigenere <[encrypt/decrypt]> <[key]> <message>");
+                    embed.setTitle("Did not specify to encrypt or decrypt.")
+                        .setColor('#FF0000')
+                        .setDescription("e!vigenere <[encrypt/decrypt]> <[key]> <message>");
                 }
             }
-            
         } else {
-            embed.setTitle("No arguments detected!");
-            embed.setColor('#FF0000');
-            embed.setDescription("e!vigenere <[encrypt/decrypt]> <[key]> <message>");
+            embed.setTitle("No arguments detected!")
+                .setColor('#FF0000')
+                .setDescription("e!vigenere <[encrypt/decrypt]> <[key]> <message>");
         }
 
         message.channel.send(embed);

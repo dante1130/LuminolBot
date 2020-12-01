@@ -17,8 +17,8 @@ module.exports = {
             server.dispatcher = connection.play(ytdl(server.queue[0], {filter: 'audioonly'}));
 
             if (server.queue[0]) {
-                embed.setTitle(`Now playing: ${server.titles[0]}`);
-                embed.setColor('#00FFFF');
+                embed.setTitle(`Now playing: ${server.titles[0]}`)
+                    .setColor('#00FFFF');
                 message.channel.send(embed);
             }
 
@@ -33,8 +33,8 @@ module.exports = {
                 if (server.queue[0]) {
                     play(connection, message);
                 } else {
-                    embed.setTitle("Nothing left in queue, leaving channel!");
-                    embed.setColor('#00FFFF');
+                    embed.setTitle("Nothing left in queue, leaving channel!")
+                        .setColor('#00FFFF');
                     message.channel.send(embed);
                     connection.disconnect();
                 }
@@ -44,18 +44,18 @@ module.exports = {
         const embed = new MessageEmbed();
 
         if (!args[0]) {
-            embed.setTitle("No URL in argument!");
-            embed.setColor('#FF0000');
-            embed.setDescription('e!play <URL>');
+            embed.setTitle("No URL in argument!")
+                .setColor('#FF0000')
+                .setDescription('e!play <URL>');
             message.channel.send(embed);
             return;
         }
         
 
         if (!message.member.voice.channel) {
-            embed.setTitle("Member not in voice channel!");
-            embed.setColor('#FF0000');
-            embed.setDescription('Please join a voice channel and try again.');
+            embed.setTitle("Member not in voice channel!")
+                .setColor('#FF0000')
+                .setDescription('Please join a voice channel and try again.');
             message.channel.send(embed);
             return;
         }

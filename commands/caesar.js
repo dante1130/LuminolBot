@@ -15,28 +15,28 @@ module.exports = {
                     if (!Number.isInteger(parseInt(key))) {
                         key = 0;
                     }
-                    embed.setTitle("Caesar Encrypt");
-                    embed.setColor('#00FFFF');
-                    embed.addField(`Offset: ${key}`, encrypt(oldMessage, key), true);
+                    embed.setTitle("Caesar Encrypt")
+                        .setColor('#00FFFF')
+                        .addField(`Offset: ${key}`, encrypt(oldMessage, key), true);
                 } else if (args[0].toLowerCase().replace(/[\[\]]+/g, '') == 'decrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
                     let key = args[1].replace(/[\[\]]+/g, '');
                     if (!Number.isInteger(parseInt(key))) {
                         key = 0;
                     }
-                    embed.setTitle("Caesar Decrypt");
-                    embed.setColor('#00FFFF');
-                    embed.addField(`Offset: ${key}`, decrypt(oldMessage, key), true);
+                    embed.setTitle("Caesar Decrypt")
+                        .setColor('#00FFFF')
+                        .addField(`Offset: ${key}`, decrypt(oldMessage, key), true);
                 } else {
-                    embed.setTitle("Invalid arguments!");
-                    embed.setColor('#FF0000');
-                    embed.setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
+                    embed.setTitle("Invalid arguments!")
+                        .setColor('#FF0000')
+                        .setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
                 }
             }
             
         } else {
-            embed.setTitle("No arguments detected!");
-            embed.setColor('#FF0000');
-            embed.setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
+            embed.setTitle("No arguments detected!")
+                .setColor('#FF0000')
+                .setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
         }
 
         message.channel.send(embed);
