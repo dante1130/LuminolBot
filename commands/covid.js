@@ -7,7 +7,7 @@ module.exports = {
     description: 'shows covid info',
 
     execute(message, args) {
-        const embed = new MessageEmbed()
+        const embed = new MessageEmbed();
         if (!args[0]) {
             covid.getReports().then((result) => {
                 embed.setTitle(`COVID19 Statistics`)
@@ -82,7 +82,7 @@ module.exports = {
                     .setDescription(`Country '${args[0]}' not found.`);
                 message.channel.send(embed);
                 console.log(err);
-            })
+            });
         }
     }
-}
+};
