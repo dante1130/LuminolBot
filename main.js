@@ -1,12 +1,12 @@
 const Discord = require('discord.js');
-const { MessageEmbed } = require("discord.js")
+const { MessageEmbed } = require("discord.js");
 const fs = require('fs');
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 require('dotenv').config();
 
 const prefix = 'e!';
-const embed = new MessageEmbed()
+const embed = new MessageEmbed();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
 var servers = [];
@@ -20,7 +20,7 @@ for (const file of commandFiles) {
 bot.once('ready', () => {
     console.log('LuminolBot is online!');
     bot.user.setActivity('Ace Attorney | e!help', { type: 'PLAYING' });
-})
+});
 
 // commands
 bot.on('message', message => {
@@ -87,7 +87,7 @@ bot.on('message', message => {
             bot.commands.get('covid').execute(message, args);
             break;
     }
-})
+});
 
 // @someone function
 bot.on('message', message => {
@@ -105,7 +105,7 @@ bot.on('message', message => {
         message.delete();
         message.channel.send(newMessage);
     }
-})
+});
 
 // forbids certain words
 bot.on('message', message => {
@@ -122,6 +122,6 @@ bot.on('message', message => {
         }
     }
     return;
-})
+});
 
 bot.login(process.env.BOT_TOKEN);

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js")
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: 'caesar',
@@ -75,4 +75,4 @@ module.exports = {
             return newMessage;
         }
     }
-}
+};

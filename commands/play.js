@@ -38,7 +38,7 @@ module.exports = {
                     message.channel.send(embed);
                     connection.disconnect();
                 }
-            })
+            });
         } 
 
         const embed = new MessageEmbed();
@@ -65,7 +65,7 @@ module.exports = {
             titles: [],
             loop: false,
             skip: false
-        } 
+        };
         
         var server = servers[message.guild.id];
 
@@ -73,14 +73,14 @@ module.exports = {
             var opts = {
                 maxResults: 1,
                 key: process.env.YOUTUBE_API_KEY
-            }
+            };
         
             youtubeSearch(args.join(' '), opts, function(err, results) {
                 if (err) {
                     embed.setTitle("Your search did not find any video!");
                     embed.setColor('#FF0000');
                     message.channel.send(embed);
-                    return
+                    return;
                 } 
                 server.queue.push(results[0].link);
                 server.titles.push(results[0].title);
@@ -96,6 +96,6 @@ module.exports = {
 
         if (!message.guild.me.voice.connection) message.member.voice.channel.join().then(function(connection) {
             play(connection, message);
-        })
+        });
     }
-}
+};
