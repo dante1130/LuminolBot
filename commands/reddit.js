@@ -23,4 +23,4 @@ module.exports  = {
             message.channel.send(post.url);
         });
         }
-    }
+    };
