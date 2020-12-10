@@ -99,6 +99,7 @@ bot.on('message', message => {
         for (const member of message.guild.members.cache) {
             channelMembers.push(member);
         }
+        
         const randomMember = channelMembers[Math.floor(Math.random() * channelMembers.length)];
         args.splice(indexMention, 1, `<@${randomMember[0]}>`);
         const newMessage = args.join(' ');

@@ -9,20 +9,21 @@
   "author": "Andrew",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
+    "@discordjs/opus": "^0.3.3",
     "covid19-api": "^1.2.1",
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
     "jshint": "^2.12.0",
     "jslint": "^0.12.1",
     "node-fetch": "^2.6.1",
     "opusscript": "0.0.7",
-    "reddit-fetch": "^1.4.0",
+    "reddit-fetch": "^1.5.1",
     "translate-google": "^1.4.3",
     "wtf_wikipedia": "^8.5.1",
     "youtube-metadata-from-url": "^1.0.3",
     "youtube-search": "^1.1.4",
-    "ytdl-core": "^3.4.2"
+    "ytdl-core": "^4.1.2",
+    "ytdl-core-discord": "^1.2.4"
   }
 }
