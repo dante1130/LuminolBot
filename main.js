@@ -86,6 +86,10 @@ bot.on('message', message => {
         case 'covid':
             bot.commands.get('covid').execute(message, args);
             break;
+        
+        case 'tth':
+            bot.commands.get('tth').execute(message, args);
+            break;
     }
 });
 
@@ -96,12 +100,10 @@ bot.on('message', message => {
         const indexMention = args.indexOf('@someone');
         const channelMembers = [];
 
-        for (const member of message.guild.members.cache) {
-            channelMembers.push(member);
-        }
-        
+        message.guild.members.cache.forEach(member => channelMembers.push(member.user));
+
         const randomMember = channelMembers[Math.floor(Math.random() * channelMembers.length)];
-        args.splice(indexMention, 1, `<@${randomMember[0]}>`);
+        args.splice(indexMention, 1, `${randomMember}`);
         const newMessage = args.join(' ');
         message.delete();
         message.channel.send(newMessage);
@@ -117,12 +119,11 @@ bot.on('message', message => {
             message.delete();
             embed.setTitle("Forbidden word detected!")
                 .setColor('#FF0000')
-                .setDescription("Don't say " + word + "! That's not very honourable of you.");
+                .setDescription(`Don't say ${word}! That's not very honourable of you.`);
             message.channel.send(embed);
             break;
         }
     }
-    return;
 });
 
 bot.login(process.env.BOT_TOKEN);

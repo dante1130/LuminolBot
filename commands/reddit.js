@@ -7,9 +7,7 @@ module.exports  = {
     execute(message, args) {
         var sub = 'all';
 
-        if (args[0]) {
-            sub = args[0];
-        }
+        if (args[0]) sub = args[0];
 
         redditFetch({
 

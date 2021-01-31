@@ -30,14 +30,13 @@ module.exports = {
         }
 
         const msg = args.join(' ');
-            translate(msg, {to: language}).then(res => {
-                embed.setTitle(msg)
-                    .setColor('#00FFFF')
-                    .setDescription(res);
-                message.channel.send(embed);
-            }).catch(err => {
-                console.error(err);
-            })
-        
+        translate(msg, {to: language}).then(res => {
+            embed.setTitle(msg)
+                .setColor('#00FFFF')
+                .setDescription(res);
+            message.channel.send(embed);
+        }).catch(err => {
+            console.error(err);
+        });
     }
 }

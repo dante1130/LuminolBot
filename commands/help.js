@@ -17,7 +17,8 @@ module.exports = {
                 {
                     name: 'Fun',
                     value: `e!ping              Ping pong!
-                            e!ask <question>    Ask me anything and I will answer with science!`,
+                            e!ask <question>    Ask me anything and I will answer with science!
+                            e!tth <message>     Replaces t with th and th with t.`,
                     inline: false
                 },
                 {
