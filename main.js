@@ -100,8 +100,15 @@ bot.on('message', message => {
         const indexMention = args.indexOf('@someone');
         const channelMembers = [];
 
+<<<<<<< HEAD
         message.guild.members.cache.forEach(member => channelMembers.push(member.user));
 
+=======
+        for (const member of message.guild.members.cache) {
+            channelMembers.push(member);
+        }
+        
+>>>>>>> 7ceb7f0a457fef5bcf8382f3561089ab868461f9
         const randomMember = channelMembers[Math.floor(Math.random() * channelMembers.length)];
         args.splice(indexMention, 1, `${randomMember}`);
         const newMessage = args.join(' ');
@@ -124,6 +131,10 @@ bot.on('message', message => {
             break;
         }
     }
+<<<<<<< HEAD
+=======
+    return;
+>>>>>>> 7ceb7f0a457fef5bcf8382f3561089ab868461f9
 });
 
 bot.login(process.env.BOT_TOKEN);
