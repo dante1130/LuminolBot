@@ -90,6 +90,10 @@ bot.on('message', message => {
         case 'tth':
             bot.commands.get('tth').execute(message, args);
             break;
+
+        case 'openai':
+            bot.commands.get('openai').execute(message, args);
+            break;
     }
 });
 

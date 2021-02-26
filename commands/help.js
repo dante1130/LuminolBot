@@ -18,7 +18,8 @@ module.exports = {
                     name: 'Fun',
                     value: `e!ping              Ping pong!
                             e!ask <question>    Ask me anything and I will answer with science!
-                            e!tth <message>     Replaces t with th and th with t.`,
+                            e!tth <message>     Replaces t with th and th with t.
+                            e!openai <prompt>   Uses the GPT-3 complete prompt function.`,
                     inline: false
                 },
                 {

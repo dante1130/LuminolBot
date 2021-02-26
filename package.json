@@ -17,13 +17,15 @@
     "jshint": "^2.12.0",
     "jslint": "^0.12.1",
     "node-fetch": "^2.6.1",
+    "open-api": "^0.2.2",
+    "openai-api": "^1.0.15",
     "opusscript": "0.0.7",
     "reddit-fetch": "^1.5.1",
     "translate-google": "^1.4.3",
     "wtf_wikipedia": "^8.5.1",
     "youtube-metadata-from-url": "^1.0.3",
-    "youtube-search": "^1.1.4",
-    "ytdl-core": "^4.1.2",
-    "ytdl-core-discord": "^1.2.4"
+    "youtube-search": "^1.1.6",
+    "ytdl-core": "^4.5.0",
+    "ytdl-core-discord": "^1.2.5"
   }
 }
