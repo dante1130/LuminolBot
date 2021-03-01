@@ -13,7 +13,14 @@ module.exports = {
             const gptResponse = await api.complete({
                 engine: 'davinci',
                 prompt: userInput,
-                maxTokens: 100
+                maxTokens: 128,
+                temperature: 0.5,
+                topP: 1,
+                presencePenalty: 1,
+                frequencyPenalty: 1,
+                bestOf: 1,
+                n: 1,
+                stream: false,
             });
                     
             message.channel.send(userInput + gptResponse.data.choices[0].text);
