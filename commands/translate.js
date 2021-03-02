@@ -22,7 +22,7 @@ module.exports = {
                 .setDescription('https://github.com/shikar/NODE_GOOGLE_TRANSLATE/blob/master/languages.js');
             message.channel.send(embed);
             return;
-        } else if (args[0].includes('[') && (args[0].includes(']'))) {
+        } else if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
             if (args[0].toLowerCase().replace(/[\[\]]+/g, '') in langs) {
                 language = args[0].replace(/[\[\]]+/g, '');
                 args.shift();

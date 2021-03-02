@@ -8,7 +8,7 @@ module.exports = {
         const embed = new MessageEmbed();
 
         if (args[0]) {
-            if (args[0].includes('[') && (args[0].includes(']'))) {
+            if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
                 const oldMessage = args.slice(2).join(' ').toUpperCase();
                 if (args[0].toLowerCase().replace(/[\[\]]+/g, '') == 'encrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
                     const key = args[1].replace(/[\[\]]+/g, '').toUpperCase();
