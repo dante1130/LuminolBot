@@ -4,7 +4,7 @@ const api = new OpenAI(process.env.OPEN_AI_API_KEY);
 
 module.exports = {
     name: 'openai',
-    description: "Uses the complete functio of OpenAI.",
+    description: "Uses the complete function of OpenAI.",
 
     execute(message, args) {
         const minToken = 0;
@@ -16,9 +16,7 @@ module.exports = {
             if (tokens > minToken && tokens <= maxToken) {
                 specTokens = tokens;
                 args.shift();
-            }
-            else
-            {
+            } else {
                 message.channel.send(`Unknown specification or out of range of ${minToken} and ${maxToken}. Defaulting to 128.`);
             }
         }

@@ -130,4 +130,16 @@ bot.on('message', message => {
     }
 });
 
+// Kicks user whenever another specified user is in the same channel
+bot.on('voiceStateUpdate', (oldMember, newMember) => {
+    const ivanID = '660674262574825482';
+    const xiaoChenID = '780413321467789313';
+
+    const ivan = newMember.guild.members.cache.get(ivanID);
+
+    if (newMember.id === xiaoChenID && newMember.channelID === ivan.voice.channelID) {
+        ivan.voice.setChannel(ivan.guild.afkChannelID);
+    }
+});
+
 bot.login(process.env.BOT_TOKEN);
