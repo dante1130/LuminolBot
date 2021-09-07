@@ -130,7 +130,8 @@ bot.on('message', message => {
     }
 });
 
-// Kicks user whenever another specified user is in the same channel
+// Kicks user whenever another specified user is in the same channel (INACTIVE)
+/*
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
     const ivanID = '660674262574825482';
     const xiaoChenID = '780413321467789313';
@@ -141,5 +142,6 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         ivan.voice.setChannel(ivan.guild.afkChannelID);
     }
 });
+*/
 
 bot.login(process.env.BOT_TOKEN);
