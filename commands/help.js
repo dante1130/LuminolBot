@@ -19,7 +19,8 @@ module.exports = {
                     value: `e!ping              Ping pong!
                             e!ask <question>    Ask me anything and I will answer with science!
                             e!tth <message>     Replaces t with th and th with t.
-                            e!openai <prompt>   Uses the GPT-3 complete prompt function.`,
+                            e!openai <prompt>   Uses the GPT-3 complete prompt function.
+                            e!hitomezashi <msg> Generates a hitomezashi stitching pattern from a given text and key.`,
                     inline: false
                 },
                 {

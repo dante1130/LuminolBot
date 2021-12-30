@@ -94,6 +94,9 @@ bot.on('message', message => {
         case 'openai':
             bot.commands.get('openai').execute(message, args);
             break;
+        
+        case 'hitomezashi':
+            bot.commands.get('hitomezashi').execute(message, args);
     }
 });
 

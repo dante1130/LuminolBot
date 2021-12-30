@@ -3,7 +3,7 @@ module.exports = {
     description: "Replaces t with th and th with t.",
 
     execute(message, args) {
-        var newMessage = "";
+        let newMessage = "";
         args = args.join(' ');
 
         for (let i = 0; i < args.length; i++) {
