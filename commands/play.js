@@ -36,7 +36,7 @@ module.exports = {
                     if (err) {
                         embed.setTitle("Your search did not find any video!");
                         embed.setColor('#FF0000');
-                        message.channel.send(embed);
+                        message.channel.send({ embeds: [embed] });
                         reject();
                     }
 
@@ -70,7 +70,7 @@ module.exports = {
             if (server.queue[0]) {
                 embed.setTitle(`Now playing: ${server.titles[0]}`)
                     .setColor('#00FFFF');
-                message.channel.send(embed);
+                message.channel.send({ embeds: [embed] });
             }
 
             server.dispatcher.on("finish", () => {
@@ -86,7 +86,7 @@ module.exports = {
                 } else {
                     embed.setTitle("Nothing left in queue, leaving channel!")
                         .setColor('#00FFFF');
-                    message.channel.send(embed);
+                    message.channel.send({ embeds: [embed] });
                     connection.disconnect();
                 }
             });
@@ -97,7 +97,7 @@ module.exports = {
             embed.setTitle("No URL in argument!")
                 .setColor('#FF0000')
                 .setDescription('e!play <URL>');
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             return;
         }
         
@@ -106,7 +106,7 @@ module.exports = {
             embed.setTitle("Member not in voice channel!")
                 .setColor('#FF0000')
                 .setDescription('Please join a voice channel and try again.');
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             return;
         }
 

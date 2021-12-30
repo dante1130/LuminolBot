@@ -82,6 +82,6 @@ module.exports = {
         
         const attachment = new MessageAttachment(canvas.toBuffer(),'hitomezashi.png'); 
  
-        message.channel.send(attachment);
+        message.channel.send({ files: [attachment] });
     }
 }

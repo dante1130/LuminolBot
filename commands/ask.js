@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: 'ask',
@@ -32,20 +32,28 @@ module.exports = {
                             "you may rely on it."]
 
         if (question.toLowerCase().includes("why are we still here")) {
+            const file = new MessageAttachment("./images/Sad.gif")
+
             embed.setDescription(`Just to suffer? Every night, I can feel my leg... And my arm... even my fingers... The body I've lost... the comrades I've lost... won't stop hurting... 
                                 It's like they're all still there. You feel it, too, don't you? I'm gonna make them give back our past!`)
-                .attachFiles(['./images/Sad.gif'])
                 .setImage('attachment://Sad.gif');
+
+            message.channel.send({ embeds: [embed], files: [file] });
         } else if (question.toLowerCase().includes("why are you gay")) {
+            const file = new MessageAttachment("./images/thinking.gif")
+
             embed.setDescription(`Who says I'm gay?`)
-                .attachFiles(['./images/thinking.gif'])
                 .setImage('attachment://thinking.gif');
+
+            message.channel.send({ embeds: [embed], files: [file] });
         } else {
+            const file = new MessageAttachment("./images/DS.gif")
+
             const response = responses[Math.floor(Math.random() * responses.length)]
             embed.setDescription(`So, to scientically analyze the data available so far, ${response}`)
-                .attachFiles(['./images/DS.gif'])
                 .setImage('attachment://DS.gif');
+
+            message.channel.send({ embeds: [embed], files: [file] });
         }
-        message.channel.send(embed);
     }
 };

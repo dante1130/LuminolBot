@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Intents } = require("discord.js");
 const fs = require('fs');
-const bot = new Discord.Client();
+const bot = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 bot.commands = new Discord.Collection();
 require('dotenv').config();
 
@@ -23,7 +23,7 @@ bot.once('ready', () => {
 });
 
 // commands
-bot.on('message', message => {
+bot.on('messageCreate', message => {
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -101,7 +101,7 @@ bot.on('message', message => {
 });
 
 // @someone function
-bot.on('message', message => {
+bot.on('messageCreate', message => {
     const args = message.content.split(/ +/);
     if (args.includes('@someone')) {
         const indexMention = args.indexOf('@someone');
@@ -112,13 +112,13 @@ bot.on('message', message => {
         const randomMember = channelMembers[Math.floor(Math.random() * channelMembers.length)];
         args.splice(indexMention, 1, `${randomMember}`);
         const newMessage = args.join(' ');
-        message.delete();
         message.channel.send(newMessage);
+        message.delete();
     }
 });
 
 // forbids certain words
-bot.on('message', message => {
+bot.on('messageCreate', message => {
     message.content = message.content.toLowerCase();
     const forbiddenWords = ['tiing', 'diing'];
     for (const word of forbiddenWords) {
@@ -127,7 +127,7 @@ bot.on('message', message => {
             embed.setTitle("Forbidden word detected!")
                 .setColor('#FF0000')
                 .setDescription(`Don't say ${word}! That's not very honourable of you.`);
-            message.channel.send(embed);
+            message.channel.send({ embeds : [embed] });
             break;
         }
     }

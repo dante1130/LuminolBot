@@ -14,13 +14,13 @@ module.exports = {
             embed.setTitle("No message detected!")
                 .setColor('#FF0000')
                 .setDescription("e!translate <message>");
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             return;
         } else if (args[0] == '[language-list]') {
             embed.setTitle("List of languages:")
                 .setColor('#00FFFF')
                 .setDescription('https://github.com/shikar/NODE_GOOGLE_TRANSLATE/blob/master/languages.js');
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             return;
         } else if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
             if (args[0].toLowerCase().replace(/[\[\]]+/g, '') in langs) {
@@ -34,7 +34,7 @@ module.exports = {
             embed.setTitle(msg)
                 .setColor('#00FFFF')
                 .setDescription(res);
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
         }).catch(err => {
             console.error(err);
         });

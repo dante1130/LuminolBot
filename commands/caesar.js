@@ -39,7 +39,7 @@ module.exports = {
                 .setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
         }
 
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
 
         function encrypt(message, key) {
             let newMessage = '';

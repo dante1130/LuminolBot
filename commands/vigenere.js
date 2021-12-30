@@ -32,7 +32,7 @@ module.exports = {
                 .setDescription("e!vigenere <[encrypt/decrypt]> <[key]> <message>");
         }
 
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
 
         function matchKeyToMessage(message, key) {
             var newKey = ''

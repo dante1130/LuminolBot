@@ -11,7 +11,7 @@ module.exports = {
             embed.setTitle("No query detected!")
                 .setColor('#FF0000')
                 .setDescription("e!wikipedia <query>");
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             return;
         }
 

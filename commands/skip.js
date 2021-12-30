@@ -29,6 +29,6 @@ module.exports = {
             embed.setColor('#FF0000');
             embed.setDescription("I'm not in a voice channel, silly.");
         }
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     }
 }
