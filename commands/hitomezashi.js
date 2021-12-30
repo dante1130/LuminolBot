@@ -7,40 +7,34 @@ module.exports = {
 
     execute(message, args) {
         const drawConsonant = (y) => {
-            for (let x = 0; x < WIDTH; x += 8) {
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-                ctx.lineTo(x+4, y);
-                ctx.stroke();
-            }
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(WIDTH, y);
+            ctx.stroke();
         }
         
         const drawVowel = (y) => {
-            for (let x = 0; x < WIDTH; x += 8) {
-                ctx.beginPath();
-                ctx.moveTo(x+4, y);
-                ctx.lineTo(x+8, y);
-                ctx.stroke();
-            }
+            ctx.beginPath();
+            ctx.moveTo(LINE_LENGTH, y);
+            ctx.lineTo(WIDTH, y);
+            ctx.stroke();
         }
         
         const drawEven = (x) => {
-            for (let y = 0; y < HEIGHT; y += 8) {
-                ctx.beginPath();
-                ctx.moveTo(x+4, y);
-                ctx.lineTo(x+4, y+4);
-                ctx.stroke();
-            }
+            ctx.beginPath();
+            ctx.moveTo(x + LINE_LENGTH, 0);
+            ctx.lineTo(x + LINE_LENGTH, HEIGHT);
+            ctx.stroke();
         }
         
         const drawOdd = (x) => {
-            for (let y = 0; y < HEIGHT; y += 8) {
-                ctx.beginPath();
-                ctx.moveTo(x+4, y+4);
-                ctx.lineTo(x+4, y+8);
-                ctx.stroke();
-            }
+            ctx.beginPath();
+            ctx.moveTo(x + LINE_LENGTH, LINE_LENGTH);
+            ctx.lineTo(x + LINE_LENGTH, HEIGHT);
+            ctx.stroke();
         }
+
+        const LINE_LENGTH = 5;
         
         const vowels = ["a", "e", "i", "o", "u"];
         
@@ -49,8 +43,8 @@ module.exports = {
 
         const keyArray = Array.from(String(key), Number);
         
-        const WIDTH = 1 + 4 * keyArray.length;
-        const HEIGHT = 1 + 4 * msg.length;
+        const WIDTH = 1 + LINE_LENGTH * keyArray.length;
+        const HEIGHT = LINE_LENGTH * msg.length;
         
         const canvas = createCanvas(WIDTH, HEIGHT);
         const ctx = canvas.getContext("2d");
@@ -64,9 +58,10 @@ module.exports = {
         
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#DDDDDD";
+        ctx.setLineDash([LINE_LENGTH, LINE_LENGTH]);
         
         [...msg].forEach((letter, index) => {;
-            const y = index * 4;
+            const y = index * LINE_LENGTH;
             if (vowels.includes(letter)) {
                 drawVowel(y);
             } else {
@@ -76,7 +71,7 @@ module.exports = {
         
         if (key !== undefined) {
             keyArray.forEach((num, index) => {
-                const x = index * 4;
+                const x = index * LINE_LENGTH;
                 if (num % 2 === 0) {
                     drawEven(x);
                 } else {
