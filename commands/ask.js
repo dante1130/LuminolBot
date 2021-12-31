@@ -2,7 +2,9 @@ const { MessageAttachment, MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: 'ask',
-    description: 'ask ema!',
+    description: 'Ask Ema and she will answer with science!',
+    usage: "<question>",
+    category: 'Fun',
 
     execute(message, args) {
         var question = args.join(' ');
@@ -34,8 +36,9 @@ module.exports = {
         if (question.toLowerCase().includes("why are we still here")) {
             const file = new MessageAttachment("./images/Sad.gif")
 
-            embed.setDescription(`Just to suffer? Every night, I can feel my leg... And my arm... even my fingers... The body I've lost... the comrades I've lost... won't stop hurting... 
-                                It's like they're all still there. You feel it, too, don't you? I'm gonna make them give back our past!`)
+            embed.setDescription(`Just to suffer? Every night, I can feel my leg... And my arm... even my fingers... 
+                                  The body I've lost... the comrades I've lost... won't stop hurting... 
+                                  It's like they're all still there. You feel it, too, don't you? I'm gonna make them give back our past!`)
                 .setImage('attachment://Sad.gif');
 
             message.channel.send({ embeds: [embed], files: [file] });

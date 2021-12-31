@@ -32,7 +32,7 @@ bot.on('messageCreate', message => {
 
     switch (command) {
         case 'help':
-            bot.commands.get('help').execute(message);
+            bot.commands.get('help').execute(message, bot.commands);
             break;
 
         case 'ping':

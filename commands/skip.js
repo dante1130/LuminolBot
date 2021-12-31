@@ -2,11 +2,13 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'skip',
-    description: "skips a song in the queue",
+    description: "Skips the current song in the queue.",
+    usage: "",
+    category: "Music",
 
     execute (message, servers) {
         const embed = new MessageEmbed();
-        var server = servers[message.guild.id];
+        let server = servers[message.guild.id];
 
         if (message.guild.me.voice.connection) {
             if (message.member.voice.channel.id === message.guild.me.voice.channel.id) {

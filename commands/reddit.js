@@ -2,23 +2,23 @@ const redditFetch = require('reddit-fetch');
 
 module.exports  = {
     name: 'reddit',
-    description: "gets a reddit post",
-
+    description: "Returns a hot post from a subreddit.",
+    usage: "<subreddit>",
+    category: "Fetch posts",
+    
     execute(message, args) {
-        var sub = 'all';
+        let sub = 'all';
 
         if (args[0]) sub = args[0];
 
         redditFetch({
-
             subreddit: sub,
             sort: 'hot',
             allowNSFW: false,
             allowModPost: false,
             allowCrossPost: true,
-
         }).then(post => {
             message.channel.send(post.url);
         });
-        }
-    };
+    }
+};

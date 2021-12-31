@@ -2,11 +2,13 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'stop',
-    description: "stops the queue",
+    description: "Removes everything from queue and leaves the channel.",
+    usage: "",
+    category: "Music",
 
     execute (message, servers) {
         const embed = new MessageEmbed();
-        var server = servers[message.guild.id];
+        let server = servers[message.guild.id];
 
         if (message.guild.me.voice.connection) {
             if (message.member.voice.channel.id === message.guild.me.voice.channel.id) {

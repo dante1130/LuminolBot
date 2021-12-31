@@ -2,7 +2,9 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: 'caesar',
-    description: "Caesar cipher",
+    description: "Caesar cipher, shifting alphabets given an offset.",
+    usage: "<[encrypt/decrypt]> <[offset]> <text>",
+    category: "Ciphers",
 
     execute(message, args) {
         const embed = new MessageEmbed();

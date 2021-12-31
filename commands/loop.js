@@ -2,7 +2,9 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'loop',
-    description: "loops the current song",
+    description: "Loops the current song.",
+    usage: "",
+    category: "Music",
 
     execute (message, servers) {
         const embed = new MessageEmbed();

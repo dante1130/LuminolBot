@@ -4,7 +4,9 @@ const api = new OpenAI(process.env.OPEN_AI_API_KEY);
 
 module.exports = {
     name: 'openai',
-    description: "Uses the complete function of OpenAI.",
+    description: "Use OpenAI to complete a given prompt.",
+    usage: "<prompt>",
+    category: "Fun",
 
     execute(message, args) {
         const minToken = 0;

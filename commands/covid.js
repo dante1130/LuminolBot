@@ -4,7 +4,9 @@ const covid = require("covid19-api");
 
 module.exports = {
     name: 'covid',
-    description: 'shows covid info',
+    description: 'Returns COVID19 statistics by country.',
+    usage: "<country>",
+    category: 'Fetch posts',
 
     execute(message, args) {
         const embed = new MessageEmbed();

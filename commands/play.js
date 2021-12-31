@@ -7,7 +7,9 @@ require('dotenv').config({path: '../'});
 
 module.exports = {
     name: 'play',
-    description: "plays youtube link!",
+    description: "Plays a YouTube link.",
+    usage: "<link/title>",
+    category: "Music",
     
     execute (message, servers, args) {
         const embed = new MessageEmbed();

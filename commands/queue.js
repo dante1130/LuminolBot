@@ -3,7 +3,9 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'queue',
-    description: "shows the queue",
+    description: "Shows the queue.",
+    usage: "",
+    category: "Music",
 
     execute(message, servers) {
         const embed = new MessageEmbed();

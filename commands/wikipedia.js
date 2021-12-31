@@ -3,7 +3,9 @@ const wiki = require('wtf_wikipedia');
 
 module.exports = {
     name: 'wikipedia',
-    description: 'sends posts from wikpedia',
+    description: 'Returns a Wikipedia page.',
+    usage: "<query>",
+    category: "Fetch posts",
 
     execute(message, args) {
         const embed = new MessageEmbed();

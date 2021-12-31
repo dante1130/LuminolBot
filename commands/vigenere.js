@@ -2,7 +2,9 @@ const { MessageEmbed } = require("discord.js")
 
 module.exports = {
     name: 'vigenere',
-    description: "Vigenere cipher",
+    description: "Vigenere Cipher, encrypts or decrypts a message given a key.",
+    usage: "<[encrypt/decrypt]> <[key]> <message>",
+    category: "Ciphers",
 
     execute(message, args) {
         const embed = new MessageEmbed();

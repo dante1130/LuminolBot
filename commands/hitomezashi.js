@@ -3,7 +3,9 @@ const { MessageAttachment } = require('discord.js');
 
 module.exports = {
     name: 'hitomezashi',
-    description: "Generates a hitomezashi stichting pattern from a given text and key.",
+    description: "Generates a hitomezashi stitching pattern from a given text and key.",
+    usage: "<letters> <numbers>",
+    category: "Fun",
 
     execute(message, args) {
         const drawConsonant = (y) => {

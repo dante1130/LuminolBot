@@ -4,11 +4,13 @@ const langs = require("translate-google/languages");
 
 module.exports = {
     name: 'translate',
-    description: 'google translate',
+    description: 'Google Translate a message into another language.',
+    usage: "<[language/language-list]> <message>",
+    category: "Google Translate",
 
     execute(message, args) {
         const embed = new MessageEmbed()
-        var language = 'en';
+        let language = 'en';
 
         if (!args[0]) {
             embed.setTitle("No message detected!")
@@ -30,6 +32,7 @@ module.exports = {
         }
 
         const msg = args.join(' ');
+
         translate(msg, {to: language}).then(res => {
             embed.setTitle(msg)
                 .setColor('#00FFFF')
