@@ -18,7 +18,7 @@
     "jshint": "^2.13.2",
     "jslint": "^0.12.1",
     "node-fetch": "^3.1.0",
-    "open-api": "^0.2.2",
+    "open-api": "^0.0.0",
     "openai-api": "^1.2.6",
     "opusscript": "0.0.8",
     "reddit-fetch": "^1.5.1",
@@ -31,5 +31,8 @@
     "ytdl-core-discord": "^1.3.1",
     "ytfps": "^1.0.5",
     "ytpl": "^2.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.6.0"
   }
 }

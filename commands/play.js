@@ -2,124 +2,131 @@ const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
 const youtubeSearch = require('youtube-search');
-require('dotenv').config({path: '../'});
+require('dotenv').config({ path: '../' });
 
 
 module.exports = {
-    name: 'play',
-    description: "Plays a YouTube link.",
-    usage: "<link/title>",
-    category: "Music",
-    
-    execute (message, servers, args) {
-        const embed = new MessageEmbed();
+	name: 'play',
+	description: 'Plays a YouTube link.',
+	usage: '<link/title>',
+	category: 'Music',
 
-        async function addPlaylistToQueue() {
-            var server = servers[message.guild.id];
+	execute(message, servers, args) {
+		const embed = new MessageEmbed();
 
-            const playlist = await ytpl(args[0]);
+		async function addPlaylistToQueue() {
+			const server = servers[message.guild.id];
 
-            playlist.items.forEach(item => {
-                server.queue.push(item.shortUrl);
-                server.titles.push(item.title);
-            });
-        }
+			const playlist = await ytpl(args[0]);
 
-        const addToQueue = () => {
-            return new Promise((resolve, reject) => {
-                var server = servers[message.guild.id];
+			playlist.items.forEach(item => {
+				server.queue.push(item.shortUrl);
+				server.titles.push(item.title);
+			});
+		}
 
-                var opts = {
-                    maxResults: 1,
-                    key: process.env.YOUTUBE_API_KEY
-                };
+		const addToQueue = () => {
+			return new Promise((resolve, reject) => {
+				const server = servers[message.guild.id];
 
-                youtubeSearch(args.join(' '), opts, (err, results) => {
-                    if (err) {
-                        embed.setTitle("Your search did not find any video!");
-                        embed.setColor('#FF0000');
-                        message.channel.send({ embeds: [embed] });
-                        reject();
-                    }
+				const opts = {
+					maxResults: 1,
+					key: process.env.YOUTUBE_API_KEY,
+				};
 
-                    var result = results[0];
+				youtubeSearch(args.join(' '), opts, (err, results) => {
+					if (err) {
+						embed.setTitle('Your search did not find any video!');
+						embed.setColor('#FF0000');
+						message.channel.send({ embeds: [embed] });
+						reject();
+					}
 
-                    if (result.kind === 'youtube#playlist' || args[0].includes('https://www.youtube.com/playlist?list=')) {
-                        addPlaylistToQueue();
-                        resolve();
-                    } else {
-                        server.queue.push(result.link);
-                        server.titles.push(result.title);
-                        resolve();
-                    }
-                });
-                
-            });
-        }
+					const result = results[0];
 
-        async function connect() {
-            await addToQueue();
-            if (!message.guild.me.voice.connection) message.member.voice.channel.join().then((connection) => {
-                play(connection);
-            });
-        }
+					if (result.kind === 'youtube#playlist' || args[0].includes('https://www.youtube.com/playlist?list=')) {
+						addPlaylistToQueue();
+						resolve();
+					}
+					else {
+						server.queue.push(result.link);
+						server.titles.push(result.title);
+						resolve();
+					}
+				});
 
-        const play = (connection) => {
-            var server = servers[message.guild.id];
+			});
+		};
 
-            server.dispatcher = connection.play(ytdl(server.queue[0], {filter: 'audioonly'}));
+		async function connect() {
+			await addToQueue();
+			if (!message.guild.me.voice.connection) {
+				message.member.voice.channel.join().then((connection) => {
+					play(connection);
+				});
+			}
+		}
 
-            if (server.queue[0]) {
-                embed.setTitle(`Now playing: ${server.titles[0]}`)
-                    .setColor('#00FFFF');
-                message.channel.send({ embeds: [embed] });
-            }
+		const play = (connection) => {
+			const server = servers[message.guild.id];
 
-            server.dispatcher.on("finish", () => {
-                if (!server.loop && !server.skip) {
-                    server.queue.shift();
-                    server.titles.shift();
-                } else {
-                    server.skip = false; 
-                }
+			server.dispatcher = connection.play(ytdl(server.queue[0], { filter: 'audioonly' }));
 
-                if (server.queue[0]) {
-                    play(connection);
-                } else {
-                    embed.setTitle("Nothing left in queue, leaving channel!")
-                        .setColor('#00FFFF');
-                    message.channel.send({ embeds: [embed] });
-                    connection.disconnect();
-                }
-            });
-        } 
+			if (server.queue[0]) {
+				embed.setTitle(`Now playing: ${server.titles[0]}`)
+					.setColor('#00FFFF');
+				message.channel.send({ embeds: [embed] });
+			}
 
-        // No arguments
-        if (!args[0]) {
-            embed.setTitle("No URL in argument!")
-                .setColor('#FF0000')
-                .setDescription('e!play <URL>');
-            message.channel.send({ embeds: [embed] });
-            return;
-        }
-        
-        // User not in voice channel
-        if (!message.member.voice.channel) {
-            embed.setTitle("Member not in voice channel!")
-                .setColor('#FF0000')
-                .setDescription('Please join a voice channel and try again.');
-            message.channel.send({ embeds: [embed] });
-            return;
-        }
+			server.dispatcher.on('finish', () => {
+				if (!server.loop && !server.skip) {
+					server.queue.shift();
+					server.titles.shift();
+				}
+				else {
+					server.skip = false;
+				}
 
-        // Initialization
-        if (!servers[message.guild.id]) servers[message.guild.id] = {
-            queue: [],
-            titles: [],
-            loop: false,
-            skip: false
-        };
+				if (server.queue[0]) {
+					play(connection);
+				}
+				else {
+					embed.setTitle('Nothing left in queue, leaving channel!')
+						.setColor('#00FFFF');
+					message.channel.send({ embeds: [embed] });
+					connection.disconnect();
+				}
+			});
+		};
 
-        connect();
-    }
+		// No arguments
+		if (!args[0]) {
+			embed.setTitle('No URL in argument!')
+				.setColor('#FF0000')
+				.setDescription('e!play <URL>');
+			message.channel.send({ embeds: [embed] });
+			return;
+		}
+
+		// User not in voice channel
+		if (!message.member.voice.channel) {
+			embed.setTitle('Member not in voice channel!')
+				.setColor('#FF0000')
+				.setDescription('Please join a voice channel and try again.');
+			message.channel.send({ embeds: [embed] });
+			return;
+		}
+
+		// Initialization
+		if (!servers[message.guild.id]) {
+			servers[message.guild.id] = {
+				queue: [],
+				titles: [],
+				loop: false,
+				skip: false,
+			};
+		}
+
+		connect();
+	},
 };
