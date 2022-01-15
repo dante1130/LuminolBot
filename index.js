@@ -1,4 +1,6 @@
 const { Client, Collection, Intents } = require('discord.js');
+const fs = require('fs');
+const { token } = require('./config.json');
 
 const client = new Client({
 	intents: [
@@ -7,10 +9,6 @@ const client = new Client({
 		Intents.FLAGS.GUILD_VOICE_STATES,
 	],
 });
-
-const fs = require('fs');
-
-const { token } = require('./config.json');
 
 client.commands = new Collection();
 
