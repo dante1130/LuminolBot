@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
-const youtubeSearch = require('youtube-search');
-const { youtubeApiKey } = require('../config.json');
+const yts = require('yt-search');
 const {
 	AudioPlayerStatus,
 	StreamType,
@@ -32,50 +31,37 @@ module.exports = {
 			});
 		};
 
-		const addToQueue = () => {
-			return new Promise((resolve, reject) => {
-				const server = servers.get(message.guild.id);
+		const addToQueue = async () => {
+			const server = servers.get(message.guild.id);
 
-				const opts = {
-					maxResults: 1,
-					key: youtubeApiKey,
-				};
+			const results = await yts(args.join(' '));
 
-				youtubeSearch(args.join(' '), opts, (err, results) => {
-					if (err) {
-						embed.setTitle('Your search did not find any video!');
-						embed.setColor('#FF0000');
-						message.channel.send({ embeds: [embed] });
-						reject();
-					}
+			if (results.all.length === 0) {
+				embed.setTitle('Your search did not find any video!');
+				embed.setColor('#FF0000');
+				message.channel.send({ embeds: [embed] });
+				return;
+			}
 
-					const result = results[0];
+			const result = results.all[0];
 
-					embed.setTitle(`Added to queue: ${result.title}`)
-						.setColor('#00FFFF');
+			embed.setTitle(`Added to queue: ${result.title}`)
+				.setColor('#00FFFF');
 
-					if (result.kind === 'youtube#playlist' || args[0].includes('https://www.youtube.com/playlist?list=')) {
-						addPlaylistToQueue();
-					}
-					else {
-						server.queue.push(result.link);
-						server.titles.push(result.title);
-					}
+			if (result.type === 'list') {
+				await addPlaylistToQueue();
+			}
+			else {
+				server.queue.push(result.url);
+				server.titles.push(result.title);
+			}
 
-					message.channel.send({ embeds: [embed] });
-
-					resolve();
-				});
-			});
+			message.channel.send({ embeds: [embed] });
 		};
 
+
 		const connect = async () => {
-			try {
-				await addToQueue();
-			}
-			catch (error) {
-				console.log(error);
-			}
+			await addToQueue();
 
 			let connection = getVoiceConnection(message.guild.id);
 
@@ -93,7 +79,10 @@ module.exports = {
 		const play = (connection) => {
 			const server = servers.get(message.guild.id);
 
-			const stream = ytdl(server.queue[0], { filter: 'audioonly' });
+			const stream = ytdl(server.queue[0], {
+				filter: 'audioonly',
+				highWaterMark: 1 << 25,
+			});
 
 			const resource = createAudioResource(stream, { inputType: StreamType.Arbitrary });
 
@@ -102,6 +91,10 @@ module.exports = {
 			player.play(resource);
 
 			server.subscription = connection.subscribe(player);
+
+			player.on('error', (error) => {
+				console.log(error);
+			});
 
 			player.on(AudioPlayerStatus.Idle, () => {
 				if (!server.loop) {
