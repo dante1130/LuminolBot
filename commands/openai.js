@@ -1,6 +1,6 @@
 const OpenAI = require('openai-api');
-require('dotenv').config();
-const api = new OpenAI(process.env.OPEN_AI_API_KEY);
+const { openaiApiKey } = require('../config.json');
+const api = new OpenAI(openaiApiKey);
 
 module.exports = {
 	name: 'openai',
@@ -14,7 +14,7 @@ module.exports = {
 		let specTokens = 128;
 
 		if (args[0].startsWith('[') && args[0].endsWith(']')) {
-			const tokens = args[0].replace(/[\[\]]+/g, '');
+			const tokens = args[0].replace(/[[\]]+/g, '');
 			if (tokens > minToken && tokens <= maxToken) {
 				specTokens = tokens;
 				args.shift();

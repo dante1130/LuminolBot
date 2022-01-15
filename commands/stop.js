@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { getVoiceConnection } = require('@discordjs/voice');
 
 module.exports = {
 	name: 'stop',
@@ -8,23 +9,18 @@ module.exports = {
 
 	execute(message, servers) {
 		const embed = new MessageEmbed();
-		const server = servers[message.guild.id];
+		const server = servers.get(message.guild.id);
 
-		if (message.guild.me.voice.connection) {
-			if (message.member.voice.channel.id === message.guild.me.voice.channel.id) {
-				server.queue = [];
-				server.titles = [];
-				embed.setTitle('Hold it!')
-					.setColor('#00FFFF')
-					.setDescription('Ending the queue!');
+		const connection = getVoiceConnection(message.guild.id);
 
-				if (server.dispatcher) server.dispatcher.end();
-			}
-			else {
-				embed.setTitle('User not in same voice channel!')
-					.setColor('#FF0000')
-					.setDescription('You have to be in the same channel as me to make me leave.');
-			}
+		if (connection) {
+			server.queue = [];
+			server.titles = [];
+			embed.setTitle('Hold it!')
+				.setColor('#00FFFF')
+				.setDescription('Ending the queue!');
+
+			connection.destroy();
 		}
 		else {
 			embed.setTitle('Not in any voice channel!')

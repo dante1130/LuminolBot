@@ -1,20 +1,24 @@
-const Discord = require('discord.js');
-const { MessageEmbed, Intents } = require('discord.js');
+const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
 
-const bot = new Discord.Client({
-	intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+const bot = new Client({
+	intents: [
+		Intents.FLAGS.GUILDS,
+		Intents.FLAGS.GUILD_MESSAGES,
+		Intents.FLAGS.GUILD_VOICE_STATES,
+	],
 });
 
 const fs = require('fs');
 
-bot.commands = new Discord.Collection();
-require('dotenv').config();
+const { token } = require('./config.json');
+
+bot.commands = new Collection();
 
 const prefix = 'e!';
 const embed = new MessageEmbed();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 
-const servers = [];
+const servers = new Map();
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -102,6 +106,7 @@ bot.on('messageCreate', message => {
 
 	case 'hitomezashi':
 		bot.commands.get('hitomezashi').execute(message, args);
+		break;
 	}
 });
 
@@ -152,4 +157,4 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 });
 */
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(token);
