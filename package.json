@@ -9,16 +9,20 @@
   "author": "Andrew",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^0.11.0",
     "@discordjs/opus": "^0.7.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "@discordjs/voice": "^0.7.5",
     "canvas": "^2.8.0",
     "covid19-api": "^1.2.1",
+    "discord-api-types": "^0.26.1",
     "discord.js": "^13.5.0",
     "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.4.0",
     "jshint": "^2.13.2",
     "jslint": "^0.12.1",
     "node-fetch": "^3.1.0",
-    "open-api": "^0.2.2",
+    "open-api": "^0.0.0",
     "openai-api": "^1.2.6",
     "opusscript": "0.0.8",
     "reddit-fetch": "^1.5.1",
@@ -26,10 +30,14 @@
     "wtf_wikipedia": "^9.0.3",
     "youtube-metadata-from-url": "^1.0.3",
     "youtube-playlist": "^1.0.4",
-    "youtube-search": "^1.1.6",
-    "ytdl-core": "^4.9.2",
+    "yt-search": "^2.10.3",
+    "ytdl-core": "^4.10.0",
     "ytdl-core-discord": "^1.3.1",
     "ytfps": "^1.0.5",
     "ytpl": "^2.2.3"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
+    "eslint": "^8.6.0"
   }
 }

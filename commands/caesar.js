@@ -1,80 +1,83 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-    name: 'caesar',
-    description: "Caesar cipher, shifting alphabets given an offset.",
-    usage: "<[encrypt/decrypt]> <[offset]> <text>",
-    category: "Ciphers",
+	name: 'caesar',
+	description: 'Caesar cipher, shifting alphabets given an offset.',
+	usage: '<[encrypt/decrypt]> <[offset]> <text>',
+	category: 'Ciphers',
 
-    execute(message, args) {
-        const embed = new MessageEmbed();
+	execute(message, args) {
+		const embed = new MessageEmbed();
 
-        if (args[0]) {
-            if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
-                const oldMessage = args.slice(2).join(' ').toUpperCase();
-                if (args[0].toLowerCase().replace(/[\[\]]+/g, '') == 'encrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
-                    let key = args[1].replace(/[\[\]]+/g, '');
-                    if (!Number.isInteger(parseInt(key))) {
-                        key = 0;
-                    }
-                    embed.setTitle("Caesar Encrypt")
-                        .setColor('#00FFFF')
-                        .addField(`Offset: ${key}`, encrypt(oldMessage, key), true);
-                } else if (args[0].toLowerCase().replace(/[\[\]]+/g, '') == 'decrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
-                    let key = args[1].replace(/[\[\]]+/g, '');
-                    if (!Number.isInteger(parseInt(key))) {
-                        key = 0;
-                    }
-                    embed.setTitle("Caesar Decrypt")
-                        .setColor('#00FFFF')
-                        .addField(`Offset: ${key}`, decrypt(oldMessage, key), true);
-                } else {
-                    embed.setTitle("Invalid arguments!")
-                        .setColor('#FF0000')
-                        .setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
-                }
-            }
-            
-        } else {
-            embed.setTitle("No arguments detected!")
-                .setColor('#FF0000')
-                .setDescription("e!caesar <[encrypt/decrypt]> <[offset]> <message>");
-        }
+		if (args[0]) {
+			if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
+				const oldMessage = args.slice(2).join(' ').toUpperCase();
+				if (args[0].toLowerCase().replace(/[[\]]+/g, '') == 'encrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
+					let key = args[1].replace(/[[\]]+/g, '');
+					if (!Number.isInteger(parseInt(key))) {
+						key = 0;
+					}
+					embed.setTitle('Caesar Encrypt')
+						.setColor('#00FFFF')
+						.addField(`Offset: ${key}`, encrypt(oldMessage, key), true);
+				}
+				else if (args[0].toLowerCase().replace(/[[\]]+/g, '') == 'decrypt' && (args[1].includes('[') && (args[1].includes(']')))) {
+					let key = args[1].replace(/[[\]]+/g, '');
+					if (!Number.isInteger(parseInt(key))) {
+						key = 0;
+					}
+					embed.setTitle('Caesar Decrypt')
+						.setColor('#00FFFF')
+						.addField(`Offset: ${key}`, decrypt(oldMessage, key), true);
+				}
+				else {
+					embed.setTitle('Invalid arguments!')
+						.setColor('#FF0000')
+						.setDescription('e!caesar <[encrypt/decrypt]> <[offset]> <message>');
+				}
+			}
 
-        message.channel.send({ embeds: [embed] });
+		}
+		else {
+			embed.setTitle('No arguments detected!')
+				.setColor('#FF0000')
+				.setDescription('e!caesar <[encrypt/decrypt]> <[offset]> <message>');
+		}
 
-        function encrypt(message, key) {
-            let newMessage = '';
+		message.channel.send({ embeds: [embed] });
 
-            for (let i = 0; i < message.length; i++) {
-                if ( !(message[i] >= "A" && message[i] <= "Z") && !(message[i] >= "a" && message[i] <= "z")) {
-                    newMessage = newMessage + message[i];
-                } else {
-                    if (String.fromCharCode(message.charCodeAt(i) + parseInt(key)).toUpperCase() > "Z") {
-                        newMessage = newMessage + (String.fromCharCode(message.charCodeAt(i) + parseInt(key) - 26));
-                    } else {
-                        newMessage = newMessage + String.fromCharCode(message.charCodeAt(i) + parseInt(key));
-                    }
-                }
-            }
-            return newMessage;
-        }
+		function encrypt(msg, key) {
+			let newMessage = '';
 
-        function decrypt(message, key) {
-            let newMessage = '';
+			for (let i = 0; i < msg.length; i++) {
+				if (!(msg[i] >= 'A' && msg[i] <= 'Z') && !(msg[i] >= 'a' && msg[i] <= 'z')) {
+					newMessage = newMessage + msg[i];
+				}
+				else if (String.fromCharCode(msg.charCodeAt(i) + parseInt(key)).toUpperCase() > 'Z') {
+					newMessage = newMessage + (String.fromCharCode(msg.charCodeAt(i) + parseInt(key) - 26));
+				}
+				else {
+					newMessage = newMessage + String.fromCharCode(msg.charCodeAt(i) + parseInt(key));
+				}
+			}
+			return newMessage;
+		}
 
-            for (let i = 0; i < message.length; i++) {
-                if ( !(message[i] >= "A" && message[i] <= "Z") && !(message[i] >= "a" && message[i] <= "z")) {
-                    newMessage = newMessage + message[i];
-                } else {
-                    if (String.fromCharCode(message.charCodeAt(i) - parseInt(key)).toUpperCase() < "A") {
-                        newMessage = newMessage + (String.fromCharCode(message.charCodeAt(i) - parseInt(key) + 26));
-                    } else {
-                        newMessage = newMessage + String.fromCharCode(message.charCodeAt(i) - parseInt(key));
-                    }
-                }
-            }
-            return newMessage;
-        }
-    }
+		function decrypt(msg, key) {
+			let newMessage = '';
+
+			for (let i = 0; i < msg.length; i++) {
+				if (!(msg[i] >= 'A' && msg[i] <= 'Z') && !(msg[i] >= 'a' && msg[i] <= 'z')) {
+					newMessage = newMessage + msg[i];
+				}
+				else if (String.fromCharCode(msg.charCodeAt(i) - parseInt(key)).toUpperCase() < 'A') {
+					newMessage = newMessage + (String.fromCharCode(msg.charCodeAt(i) - parseInt(key) + 26));
+				}
+				else {
+					newMessage = newMessage + String.fromCharCode(msg.charCodeAt(i) - parseInt(key));
+				}
+			}
+			return newMessage;
+		}
+	},
 };

@@ -1,125 +1,152 @@
 const { MessageEmbed } = require('discord.js');
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
-const youtubeSearch = require('youtube-search');
-require('dotenv').config({path: '../'});
-
+const yts = require('yt-search');
+const {
+	AudioPlayerStatus,
+	StreamType,
+	createAudioPlayer,
+	createAudioResource,
+	joinVoiceChannel,
+	getVoiceConnection,
+} = require('@discordjs/voice');
 
 module.exports = {
-    name: 'play',
-    description: "Plays a YouTube link.",
-    usage: "<link/title>",
-    category: "Music",
-    
-    execute (message, servers, args) {
-        const embed = new MessageEmbed();
+	name: 'play',
+	description: 'Plays a YouTube link.',
+	usage: '<link/title>',
+	category: 'Music',
 
-        async function addPlaylistToQueue() {
-            var server = servers[message.guild.id];
+	execute(message, servers, args) {
+		const embed = new MessageEmbed();
 
-            const playlist = await ytpl(args[0]);
+		const addPlaylistToQueue = async () => {
+			const server = servers.get(message.guild.id);
 
-            playlist.items.forEach(item => {
-                server.queue.push(item.shortUrl);
-                server.titles.push(item.title);
-            });
-        }
+			const playlist = await ytpl(args[0]);
 
-        const addToQueue = () => {
-            return new Promise((resolve, reject) => {
-                var server = servers[message.guild.id];
+			playlist.items.forEach(item => {
+				server.queue.push(item.shortUrl);
+				server.titles.push(item.title);
+			});
+		};
 
-                var opts = {
-                    maxResults: 1,
-                    key: process.env.YOUTUBE_API_KEY
-                };
+		const addToQueue = async () => {
+			const server = servers.get(message.guild.id);
 
-                youtubeSearch(args.join(' '), opts, (err, results) => {
-                    if (err) {
-                        embed.setTitle("Your search did not find any video!");
-                        embed.setColor('#FF0000');
-                        message.channel.send({ embeds: [embed] });
-                        reject();
-                    }
+			const results = await yts(args.join(' '));
 
-                    var result = results[0];
+			if (results.all.length === 0) {
+				embed.setTitle('Your search did not find any video!');
+				embed.setColor('#FF0000');
+				message.channel.send({ embeds: [embed] });
+				return;
+			}
 
-                    if (result.kind === 'youtube#playlist' || args[0].includes('https://www.youtube.com/playlist?list=')) {
-                        addPlaylistToQueue();
-                        resolve();
-                    } else {
-                        server.queue.push(result.link);
-                        server.titles.push(result.title);
-                        resolve();
-                    }
-                });
-                
-            });
-        }
+			const result = results.all[0];
 
-        async function connect() {
-            await addToQueue();
-            if (!message.guild.me.voice.connection) message.member.voice.channel.join().then((connection) => {
-                play(connection);
-            });
-        }
+			embed.setTitle(`Added to queue: ${result.title}`)
+				.setColor('#00FFFF');
 
-        const play = (connection) => {
-            var server = servers[message.guild.id];
+			if (result.type === 'list') {
+				await addPlaylistToQueue();
+			}
+			else {
+				server.queue.push(result.url);
+				server.titles.push(result.title);
+			}
 
-            server.dispatcher = connection.play(ytdl(server.queue[0], {filter: 'audioonly'}));
+			message.channel.send({ embeds: [embed] });
+		};
 
-            if (server.queue[0]) {
-                embed.setTitle(`Now playing: ${server.titles[0]}`)
-                    .setColor('#00FFFF');
-                message.channel.send({ embeds: [embed] });
-            }
 
-            server.dispatcher.on("finish", () => {
-                if (!server.loop && !server.skip) {
-                    server.queue.shift();
-                    server.titles.shift();
-                } else {
-                    server.skip = false; 
-                }
+		const connect = async () => {
+			await addToQueue();
 
-                if (server.queue[0]) {
-                    play(connection);
-                } else {
-                    embed.setTitle("Nothing left in queue, leaving channel!")
-                        .setColor('#00FFFF');
-                    message.channel.send({ embeds: [embed] });
-                    connection.disconnect();
-                }
-            });
-        } 
+			let connection = getVoiceConnection(message.guild.id);
 
-        // No arguments
-        if (!args[0]) {
-            embed.setTitle("No URL in argument!")
-                .setColor('#FF0000')
-                .setDescription('e!play <URL>');
-            message.channel.send({ embeds: [embed] });
-            return;
-        }
-        
-        // User not in voice channel
-        if (!message.member.voice.channel) {
-            embed.setTitle("Member not in voice channel!")
-                .setColor('#FF0000')
-                .setDescription('Please join a voice channel and try again.');
-            message.channel.send({ embeds: [embed] });
-            return;
-        }
+			if (!connection) {
+				connection = joinVoiceChannel({
+					channelId: message.member.voice.channel.id,
+					guildId: message.guild.id,
+					adapterCreator: message.guild.voiceAdapterCreator,
+				});
 
-        // Initialization
-        if (!servers[message.guild.id]) servers[message.guild.id] = {
-            queue: [],
-            titles: [],
-            loop: false,
-            skip: false
-        };
+				play(connection);
+			}
+		};
 
-        connect();
-    }
+		const play = (connection) => {
+			const server = servers.get(message.guild.id);
+
+			const stream = ytdl(server.queue[0], {
+				filter: 'audioonly',
+				highWaterMark: 1 << 25,
+			});
+
+			const resource = createAudioResource(stream, { inputType: StreamType.Arbitrary });
+
+			const player = createAudioPlayer();
+
+			player.play(resource);
+
+			server.subscription = connection.subscribe(player);
+
+			player.on('error', (error) => {
+				console.log(error);
+			});
+
+			player.on(AudioPlayerStatus.Idle, () => {
+				if (!server.loop) {
+					server.queue.shift();
+					server.titles.shift();
+				}
+
+				if (server.queue[0]) {
+					play(connection);
+				}
+				else {
+					connection.destroy();
+				}
+			});
+
+			player.on(AudioPlayerStatus.Error, () => connection.destroy());
+
+			if (server.queue[0]) {
+				embed.setTitle(`Now playing: ${server.titles[0]}`)
+					.setColor('#00FFFF');
+				message.channel.send({ embeds: [embed] });
+			}
+		};
+
+		// Initialization
+		if (!servers.has(message.guild.id)) {
+			servers.set(message.guild.id, {
+				queue: [],
+				titles: [],
+				subscription: null,
+				loop: false,
+			});
+		}
+
+		// No arguments
+		if (!args[0] && !servers[message.guild.id].skip) {
+			embed.setTitle('No URL in argument!')
+				.setColor('#FF0000')
+				.setDescription('e!play <URL>');
+			message.channel.send({ embeds: [embed] });
+			return;
+		}
+
+		// User not in voice channel
+		if (!message.member.voice.channel) {
+			embed.setTitle('Member not in voice channel!')
+				.setColor('#FF0000')
+				.setDescription('Please join a voice channel and try again.');
+			message.channel.send({ embeds: [embed] });
+			return;
+		}
+
+		connect();
+	},
 };
