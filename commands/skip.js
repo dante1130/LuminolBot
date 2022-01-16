@@ -1,15 +1,19 @@
 const { MessageEmbed } = require('discord.js');
 const { getVoiceConnection } = require('@discordjs/voice');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('skip')
+		.setDescription('Skips the current song in the queue'),
 	name: 'skip',
 	description: 'Skips the current song in the queue.',
 	usage: '',
 	category: 'Music',
 
-	execute(message, servers) {
+	async execute(message, client) {
 		const embed = new MessageEmbed();
-		const server = servers.get(message.guild.id);
+		const server = client.servers.get(message.guild.id);
 
 		const connection = getVoiceConnection(message.guild.id);
 
@@ -25,6 +29,6 @@ module.exports = {
 			embed.setColor('#FF0000');
 			embed.setDescription('I\'m not in a voice channel, silly.');
 		}
-		message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
 	},
 };

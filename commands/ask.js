@@ -6,8 +6,10 @@ module.exports = {
 	usage: '<question>',
 	category: 'Fun',
 
-	execute(message, args) {
-		const question = args.join(' ');
+	async execute(message) {
+		const args = message.content.split(' ').slice(1);
+
+		const question = args.join(' ').toLowerCase();
 		const embed = new MessageEmbed()
 			.setTitle(question)
 			.setColor('#00FFFF');
@@ -33,7 +35,7 @@ module.exports = {
 			'yes - definitely.',
 			'you may rely on it.'];
 
-		if (question.toLowerCase().includes('why are we still here')) {
+		if (question.includes('why are we still here')) {
 			const file = new MessageAttachment('./images/Sad.gif');
 
 			embed.setDescription(`Just to suffer? Every night, I can feel my leg... And my arm... even my fingers... 
@@ -41,15 +43,15 @@ module.exports = {
                                   It's like they're all still there. You feel it, too, don't you? I'm gonna make them give back our past!`)
 				.setImage('attachment://Sad.gif');
 
-			message.channel.send({ embeds: [embed], files: [file] });
+			await message.reply({ embeds: [embed], files: [file] });
 		}
-		else if (question.toLowerCase().includes('why are you gay')) {
+		else if (question.includes('why are you gay')) {
 			const file = new MessageAttachment('./images/thinking.gif');
 
 			embed.setDescription('Who says I\'m gay?')
 				.setImage('attachment://thinking.gif');
 
-			message.channel.send({ embeds: [embed], files: [file] });
+			await message.reply({ embeds: [embed], files: [file] });
 		}
 		else {
 			const file = new MessageAttachment('./images/DS.gif');
@@ -58,7 +60,7 @@ module.exports = {
 			embed.setDescription(`So, to scientically analyze the data available so far, ${response}`)
 				.setImage('attachment://DS.gif');
 
-			message.channel.send({ embeds: [embed], files: [file] });
+			await message.reply({ embeds: [embed], files: [file] });
 		}
 	},
 };

@@ -1,12 +1,16 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('help')
+		.setDescription('Provides list of commands and its use.'),
 	name: 'help',
 	description: 'Provides list of commands and its use.',
 	usage: '',
 	category: 'Help',
 
-	execute(message, commands) {
+	async execute(message, client) {
 		const embed = new MessageEmbed()
 			.setTitle('List of commands')
 			.setColor('#00FFFF')
@@ -23,7 +27,7 @@ module.exports = {
 				},
 			);
 
-		commands.each(command => {
+		client.commands.each(command => {
 			const index = embed.fields.findIndex(field => field.name === command.category);
 
 			if (index === -1) {
@@ -34,6 +38,6 @@ module.exports = {
 			}
 		});
 
-		message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
 	},
 };

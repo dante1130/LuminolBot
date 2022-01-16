@@ -13,15 +13,17 @@ const {
 
 module.exports = {
 	name: 'play',
-	description: 'Plays a YouTube link.',
+	description: 'Plays a YouTube video or playlist.',
 	usage: '<link/title>',
 	category: 'Music',
 
-	execute(message, servers, args) {
+	async execute(message, client) {
 		const embed = new MessageEmbed();
 
+		const args = message.content.split(' ').slice(1);
+
 		const addPlaylistToQueue = async () => {
-			const server = servers.get(message.guild.id);
+			const server = client.servers.get(message.guild.id);
 
 			const playlist = await ytpl(args[0]);
 
@@ -32,14 +34,14 @@ module.exports = {
 		};
 
 		const addToQueue = async () => {
-			const server = servers.get(message.guild.id);
+			const server = client.servers.get(message.guild.id);
 
 			const results = await yts(args.join(' '));
 
 			if (results.all.length === 0) {
 				embed.setTitle('Your search did not find any video!');
 				embed.setColor('#FF0000');
-				message.channel.send({ embeds: [embed] });
+				await message.reply({ embeds: [embed] });
 				return;
 			}
 
@@ -56,7 +58,7 @@ module.exports = {
 				server.titles.push(result.title);
 			}
 
-			message.channel.send({ embeds: [embed] });
+			await message.reply({ embeds: [embed] });
 		};
 
 
@@ -77,7 +79,7 @@ module.exports = {
 		};
 
 		const play = (connection) => {
-			const server = servers.get(message.guild.id);
+			const server = client.servers.get(message.guild.id);
 
 			const stream = ytdl(server.queue[0], {
 				filter: 'audioonly',
@@ -115,13 +117,13 @@ module.exports = {
 			if (server.queue[0]) {
 				embed.setTitle(`Now playing: ${server.titles[0]}`)
 					.setColor('#00FFFF');
-				message.channel.send({ embeds: [embed] });
+				message.reply({ embeds: [embed] });
 			}
 		};
 
 		// Initialization
-		if (!servers.has(message.guild.id)) {
-			servers.set(message.guild.id, {
+		if (!client.servers.has(message.guild.id)) {
+			client.servers.set(message.guild.id, {
 				queue: [],
 				titles: [],
 				subscription: null,
@@ -130,11 +132,11 @@ module.exports = {
 		}
 
 		// No arguments
-		if (!args[0] && !servers[message.guild.id].skip) {
+		if (!args[0] && !client.servers[message.guild.id].skip) {
 			embed.setTitle('No URL in argument!')
 				.setColor('#FF0000')
 				.setDescription('e!play <URL>');
-			message.channel.send({ embeds: [embed] });
+			await message.reply({ embeds: [embed] });
 			return;
 		}
 
@@ -143,7 +145,7 @@ module.exports = {
 			embed.setTitle('Member not in voice channel!')
 				.setColor('#FF0000')
 				.setDescription('Please join a voice channel and try again.');
-			message.channel.send({ embeds: [embed] });
+			await message.reply({ embeds: [embed] });
 			return;
 		}
 

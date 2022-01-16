@@ -1,4 +1,6 @@
 const { Client, Collection, Intents } = require('discord.js');
+const fs = require('fs');
+const { token } = require('./config.json');
 
 const client = new Client({
 	intents: [
@@ -8,11 +10,8 @@ const client = new Client({
 	],
 });
 
-const fs = require('fs');
-
-const { token } = require('./config.json');
-
 client.commands = new Collection();
+client.servers = new Map();
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 const eventFiles = fs.readdirSync('./events/').filter(file => file.endsWith('.js'));

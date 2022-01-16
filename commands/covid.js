@@ -1,15 +1,17 @@
 const { MessageEmbed } = require('discord.js');
 const covid = require('covid19-api');
 
-
 module.exports = {
 	name: 'covid',
 	description: 'Returns COVID19 statistics by country.',
 	usage: '<country>',
 	category: 'Fetch posts',
 
-	execute(message, args) {
+	async execute(message) {
 		const embed = new MessageEmbed();
+
+		const args = message.content.split(' ').slice(1);
+
 		if (!args[0]) {
 			covid.getReports().then((result) => {
 				embed.setTitle('COVID19 Statistics')
@@ -40,7 +42,7 @@ module.exports = {
 							value: result[0][0].recovered.toString(),
 							inline: true,
 						});
-				message.channel.send({ embeds: [embed] });
+				message.reply({ embeds: [embed] });
 			});
 		}
 		else {
@@ -78,12 +80,12 @@ module.exports = {
 					embed.fields[1].value = result[0][0].active_cases[0].currently_infected_patients.toString();
 				}
 
-				message.channel.send({ embeds: [embed] });
+				message.reply({ embeds: [embed] });
 			}).catch(err => {
 				embed.setTitle('COVID19 Statistics')
 					.setColor('#FF0000')
 					.setDescription(`Country '${args[0]}' not found.`);
-				message.channel.send({ embeds: [embed] });
+				message.reply({ embeds: [embed] });
 				console.log(err);
 			});
 		}

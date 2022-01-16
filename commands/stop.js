@@ -1,15 +1,19 @@
 const { MessageEmbed } = require('discord.js');
 const { getVoiceConnection } = require('@discordjs/voice');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('stop')
+		.setDescription('Removes everything from queue and leaves the channel.'),
 	name: 'stop',
 	description: 'Removes everything from queue and leaves the channel.',
 	usage: '',
 	category: 'Music',
 
-	execute(message, servers) {
+	async execute(message, client) {
 		const embed = new MessageEmbed();
-		const server = servers.get(message.guild.id);
+		const server = client.servers.get(message.guild.id);
 
 		const connection = getVoiceConnection(message.guild.id);
 
@@ -27,6 +31,6 @@ module.exports = {
 				.setColor('#FF0000')
 				.setDescription('I\'m not in a voice channel, silly.');
 		}
-		message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
 	},
 };

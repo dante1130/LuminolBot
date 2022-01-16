@@ -6,8 +6,10 @@ module.exports = {
 	usage: '<[encrypt/decrypt]> <[offset]> <text>',
 	category: 'Ciphers',
 
-	execute(message, args) {
+	async execute(message) {
 		const embed = new MessageEmbed();
+
+		const args = message.content.split(' ').slice(1);
 
 		if (args[0]) {
 			if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
@@ -44,7 +46,7 @@ module.exports = {
 				.setDescription('e!caesar <[encrypt/decrypt]> <[offset]> <message>');
 		}
 
-		message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
 
 		function encrypt(msg, key) {
 			let newMessage = '';
