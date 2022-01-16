@@ -6,19 +6,21 @@ module.exports = {
 	usage: '<subreddit>',
 	category: 'Fetch posts',
 
-	execute(message, args) {
+	async execute(message) {
+		const args = message.content.split(' ').slice(1);
+
 		let sub = 'all';
 
 		if (args[0]) sub = args[0];
 
-		redditFetch({
+		await redditFetch({
 			subreddit: sub,
 			sort: 'hot',
 			allowNSFW: false,
 			allowModPost: false,
 			allowCrossPost: true,
 		}).then(post => {
-			message.channel.send(post.url);
+			message.reply(post.url);
 		});
 	},
 };

@@ -6,7 +6,9 @@ module.exports = {
 	usage: '<[encrypt/decrypt]> <[key]> <message>',
 	category: 'Ciphers',
 
-	execute(message, args) {
+	async execute(message) {
+		const args = message.content.split(' ').slice(1);
+
 		const embed = new MessageEmbed();
 
 		if (args[0]) {
@@ -37,7 +39,7 @@ module.exports = {
 				.setDescription('e!vigenere <[encrypt/decrypt]> <[key]> <message>');
 		}
 
-		message.channel.send({ embeds: [embed] });
+		await message.reply({ embeds: [embed] });
 
 		function matchKeyToMessage(msg, key) {
 			let newKey = '';

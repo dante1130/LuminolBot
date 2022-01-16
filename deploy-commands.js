@@ -4,11 +4,14 @@ const { Routes } = require('discord-api-types/v9');
 const { clientId, guildId, token } = require('./config.json');
 
 const commands = [];
-const commandFiles = fs.readdirSync('./slash_commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./slash_commands/${file}`);
-	commands.push(command.data.toJSON());
+	const command = require(`./commands/${file}`);
+	if (command.data) {
+		console.log(command.data.name);
+		commands.push(command.data.toJSON());
+	}
 }
 
 const rest = new REST({ version: '9' }).setToken(token);

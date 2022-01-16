@@ -4,9 +4,10 @@ module.exports = {
 	usage: '<message>',
 	category: 'Fun',
 
-	execute(message, args) {
+	execute(message) {
+		const args = message.content.split(' ').slice(1).join(' ');
+
 		let newMessage = '';
-		args = args.join(' ');
 
 		for (let i = 0; i < args.length; ++i) {
 			if (args[i].toLowerCase() === 't') {
@@ -23,6 +24,6 @@ module.exports = {
 			}
 		}
 
-		message.channel.send(newMessage);
+		message.reply(newMessage);
 	},
 };

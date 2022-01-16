@@ -7,7 +7,7 @@ module.exports = {
 	usage: '<letters> <numbers>',
 	category: 'Fun',
 
-	execute(message, args) {
+	async execute(message) {
 		const drawConsonant = (y) => {
 			ctx.beginPath();
 			ctx.moveTo(0, y);
@@ -35,6 +35,8 @@ module.exports = {
 			ctx.lineTo(x + LINE_LENGTH, HEIGHT);
 			ctx.stroke();
 		};
+
+		const args = message.content.split(' ').slice(1);
 
 		const LINE_LENGTH = 5;
 
@@ -86,6 +88,6 @@ module.exports = {
 
 		const attachment = new MessageAttachment(canvas.toBuffer(), 'hitomezashi.png');
 
-		message.channel.send({ files: [attachment] });
+		message.reply({ files: [attachment] });
 	},
 };

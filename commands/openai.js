@@ -8,7 +8,9 @@ module.exports = {
 	usage: '<prompt>',
 	category: 'Fun',
 
-	execute(message, args) {
+	async execute(message) {
+		const args = message.content.split(' ').slice(1);
+
 		const minToken = 0;
 		const maxToken = 360;
 		let specTokens = 128;
@@ -20,7 +22,7 @@ module.exports = {
 				args.shift();
 			}
 			else {
-				message.channel.send(`Unknown specification or out of range of ${minToken} and ${maxToken}. Defaulting to 128.`);
+				await message.reply(`Unknown specification or out of range of ${minToken} and ${maxToken}. Defaulting to 128.`);
 			}
 		}
 
@@ -39,7 +41,7 @@ module.exports = {
 				n: 1,
 				stream: false,
 			});
-			message.channel.send(userInput + gptResponse.data.choices[0].text);
+			await message.reply(userInput + gptResponse.data.choices[0].text);
 		})();
 
 	},

@@ -8,22 +8,25 @@ module.exports = {
 	usage: '<[language/language-list]> <message>',
 	category: 'Google Translate',
 
-	execute(message, args) {
+	async execute(message) {
 		const embed = new MessageEmbed();
+
+		const args = message.content.split(' ').slice(1);
+
 		let language = 'en';
 
 		if (!args[0]) {
 			embed.setTitle('No message detected!')
 				.setColor('#FF0000')
 				.setDescription('e!translate <message>');
-			message.channel.send({ embeds: [embed] });
+			await message.reply({ embeds: [embed] });
 			return;
 		}
 		else if (args[0] == '[language-list]') {
 			embed.setTitle('List of languages:')
 				.setColor('#00FFFF')
 				.setDescription('https://github.com/shikar/NODE_GOOGLE_TRANSLATE/blob/master/languages.js');
-			message.channel.send({ embeds: [embed] });
+			await message.reply({ embeds: [embed] });
 			return;
 		}
 		else if (args[0].startsWith('[') && (args[0].endsWith(']'))) {
@@ -39,7 +42,7 @@ module.exports = {
 			embed.setTitle(msg)
 				.setColor('#00FFFF')
 				.setDescription(res);
-			message.channel.send({ embeds: [embed] });
+			message.reply({ embeds: [embed] });
 		}).catch(err => {
 			console.error(err);
 		});
