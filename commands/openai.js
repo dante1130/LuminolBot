@@ -1,6 +1,6 @@
 const OpenAI = require('openai-api');
-const { openaiApiKey } = require('../config.json');
-const api = new OpenAI(openaiApiKey);
+
+const api = new OpenAI(process.env.OPENAI_API_KEY);
 
 module.exports = {
 	name: 'openai',

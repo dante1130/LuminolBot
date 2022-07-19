@@ -1,6 +1,6 @@
 const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
-const { token } = require('./config.json');
+require('dotenv').config();
 
 const client = new Client({
 	intents: [
@@ -31,4 +31,4 @@ for (const file of eventFiles) {
 	}
 }
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);
